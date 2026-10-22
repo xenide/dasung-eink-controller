@@ -216,8 +216,8 @@ final class MonitorController {
       .nextMode: { [weak self] in self?.nextMode() },
       .contrastUp: { [weak self] in self?.adjustContrast(by: 1) },
       .contrastDown: { [weak self] in self?.adjustContrast(by: -1) },
-      .lightUp: { [weak self] in self?.adjustBrightness(by: 10) },
-      .lightDown: { [weak self] in self?.adjustBrightness(by: -10) },
+      .lightUp: { [weak self] in self?.adjustBrightness(by: 2) },
+      .lightDown: { [weak self] in self?.adjustBrightness(by: -2) },
     ])
     shortcutFailures = hotKeys.failures
   }
