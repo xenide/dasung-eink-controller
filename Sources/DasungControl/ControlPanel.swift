@@ -254,18 +254,30 @@ private struct StatusMessage: View {
 private struct ShortcutList: View {
   let failures: [Shortcut]
 
+  private var rows: [[Shortcut]] {
+    stride(from: 0, to: Shortcut.allCases.count, by: 2).map {
+      Array(Shortcut.allCases[$0..<min($0 + 2, Shortcut.allCases.count)])
+    }
+  }
+
   var body: some View {
-    Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 4) {
-      ForEach(Shortcut.allCases, id: \.self) { shortcut in
-        GridRow {
-          Text(Shortcut.modifierSymbols + shortcut.key).monospaced()
-          Text(failures.contains(shortcut) ? "\(shortcut.label) (in use)" : shortcut.label)
-            .foregroundStyle(failures.contains(shortcut) ? .red : .secondary)
+    VStack(alignment: .leading, spacing: 6) {
+      Text("Hold \(Shortcut.modifierSymbols) and press").foregroundStyle(.secondary)
+      Grid(alignment: .leading, horizontalSpacing: 8, verticalSpacing: 6) {
+        ForEach(rows, id: \.self) { row in
+          GridRow {
+            ForEach(row, id: \.self) { shortcut in
+              Text(shortcut.key).monospaced().frame(minWidth: 14)
+              Text(failures.contains(shortcut) ? "\(shortcut.label) (in use)" : shortcut.label)
+                .foregroundStyle(failures.contains(shortcut) ? .red : .secondary)
+            }
+          }
         }
       }
     }
-    .font(.caption)
-    .padding(.top, 4)
+    .font(.callout)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(.top, 6)
   }
 }
 
