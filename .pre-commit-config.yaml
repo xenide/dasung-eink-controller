@@ -23,3 +23,14 @@ repos:
         entry: plutil -lint
         language: system
         files: \.plist$
+      - id: actionlint
+        name: actionlint
+        entry: actionlint
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$
+      - id: zizmor
+        name: zizmor
+        entry: zizmor .github/
+        language: system
+        files: ^\.github/
+        pass_filenames: false

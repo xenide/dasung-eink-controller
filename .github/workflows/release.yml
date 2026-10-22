@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions: {}
+
+jobs:
+  release:
+    runs-on: macos-26
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Test
+        run: swift test
+      - name: Bundle
+        env:
+          TAG: ${{ github.ref_name }}
+        run: scripts/bundle.sh "${TAG#v}"
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: >
+          gh release create "$TAG" "build/DasungControl-${TAG#v}.zip"
+          --repo "$GITHUB_REPOSITORY" --draft --verify-tag --generate-notes
+          --title "Dasung Control ${TAG#v}" --notes-file .github/release-notes.md
