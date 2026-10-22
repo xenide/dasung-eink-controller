@@ -113,15 +113,15 @@ struct ControlPanel: View {
   }
 
   private var modeBinding: Binding<UInt8> {
-    Binding(get: { state.displayMode ?? 0 }, set: controller.select(mode:))
+    Binding(get: { state.displayMode ?? 0 }, set: { controller.select(mode: $0) })
   }
 
   private var contrastBinding: Binding<Int> {
-    Binding(get: { state.contrast ?? 0 }, set: controller.setContrast)
+    Binding(get: { state.contrast ?? 0 }, set: { controller.setContrast($0) })
   }
 
   private var frontLightBinding: Binding<FrontLight> {
-    Binding(get: { state.frontLight ?? .off }, set: controller.setFrontLight)
+    Binding(get: { state.frontLight ?? .off }, set: { controller.setFrontLight($0) })
   }
 
   private var ditheringBinding: Binding<Bool> {
@@ -129,7 +129,7 @@ struct ControlPanel: View {
   }
 
   private var launchBinding: Binding<Bool> {
-    Binding(get: { controller.launchAtLogin }, set: controller.setLaunchAtLogin)
+    Binding(get: { controller.launchAtLogin }, set: { controller.setLaunchAtLogin($0) })
   }
 }
 
