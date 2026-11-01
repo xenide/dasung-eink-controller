@@ -105,6 +105,8 @@ final class MonitorController {
   func setFrontLight(_ light: FrontLight) {
     state.frontLight = light
     connection?.send(.frontLight, value: light.rawValue)
+    connection?.query(.brightness)
+    connection?.query(.temperature)
   }
 
   func setBrightness(_ level: Int) {
